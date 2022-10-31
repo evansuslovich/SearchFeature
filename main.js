@@ -18,30 +18,40 @@ import tracks from "./tracks.json" assert { type: "json" };
 function submitClicked() {
   const songTitle = document.getElementById('information').value; // gets the information from the textbox
   document.getElementById('information').value = ""; // sets textbox to "" 
-
-  document.getElementById("songTitle").innerHTML = "Song Title: " + songTitle
-
+  
   const listOfSongTitles = findSongTitle(songTitle)
 
-
-  console.log("These are all the songs assocaited with this title: " + listOfSongTitles)
-  console.log("First song in the array: "  +listOfSongTitles[0]) // takes the first song in this 
-
-  const id = listOfSongTitles[0];
-  const SIX_ASSOCAITED = findDataAssociatedWithSong(id); 
-  console.log("These are the six associated songs with the first id in the above array: "  + SIX_ASSOCAITED) // all ids 
-  const listOfAssociatedSongsTitles = findSongForSixAssociatedSongs(SIX_ASSOCAITED)
-
-  console.log(listOfAssociatedSongsTitles)
-
-  document.getElementById("1").innerHTML = listOfAssociatedSongsTitles[0];
-  document.getElementById("2").innerHTML = listOfAssociatedSongsTitles[1];
-  document.getElementById("3").innerHTML = listOfAssociatedSongsTitles[2];
-  document.getElementById("4").innerHTML = listOfAssociatedSongsTitles[3];
-  document.getElementById("5").innerHTML = listOfAssociatedSongsTitles[4];
-  document.getElementById("6").innerHTML = listOfAssociatedSongsTitles[5];
-
   
+  if(listOfSongTitles.length == 0) {
+    alert("Song Title Does Not Exist");
+  } 
+  else 
+  {
+    const id = listOfSongTitles[0];
+    
+    const SIX_ASSOCAITED = findDataAssociatedWithSong(id);
+
+    if(SIX_ASSOCAITED[0] == undefined 
+      || SIX_ASSOCAITED[1] == undefined
+      || SIX_ASSOCAITED[2] == undefined
+      || SIX_ASSOCAITED[3] == undefined
+      || SIX_ASSOCAITED[4] == undefined
+      || SIX_ASSOCAITED[5] == undefined) {
+        alert("Not Calculated")
+      } else {
+
+      document.getElementById("songTitle").innerHTML = "Song Title: " + songTitle
+
+      const listOfAssociatedSongsTitles = findSongForSixAssociatedSongs(SIX_ASSOCAITED)
+
+      document.getElementById("1").innerHTML = listOfAssociatedSongsTitles[0];
+      document.getElementById("2").innerHTML = listOfAssociatedSongsTitles[1];
+      document.getElementById("3").innerHTML = listOfAssociatedSongsTitles[2];
+      document.getElementById("4").innerHTML = listOfAssociatedSongsTitles[3];
+      document.getElementById("5").innerHTML = listOfAssociatedSongsTitles[4];
+      document.getElementById("6").innerHTML = listOfAssociatedSongsTitles[5];
+      }
+  }
 }
 
 function findSongForSixAssociatedSongs(array) {
@@ -55,22 +65,23 @@ function findSongForSixAssociatedSongs(array) {
 function findSongTitleWithId(id) {
   for(let i = 0; i < tracks.length; i++) {
     if(id == tracks[i].track_id) {
-       return(tracks[i].title);
+      return(tracks[i].title);
     }
   }
-
+  
 }
 
 
-
+// finds the id associated with the title 
 function findSongTitle(title) {
   const array = [];
-
+  
   for (let i = 0; i < tracks.length; i++) {
     if (title == tracks[i].title) {
       array.push(tracks[i].track_id)
     }
   }
+  
   return array;
 }
 
